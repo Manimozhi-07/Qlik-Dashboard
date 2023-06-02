@@ -6,7 +6,7 @@
   user-select: none;
 }
 body {
-  background-color: #f9f9f9;
+  background-color: #f1f1f1;
   /*background-color: pink;*/
   height: 100%;
   width: 100%;
@@ -25,7 +25,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  padding: 10px;
 }
 #logo {
   background-color: #5d60ef;
@@ -47,7 +47,7 @@ body {
 }
 #list {
   text-align: center;
-  margin: 30px 10px;
+  margin: 20px 10px;
 }
 #list ul {
   padding: 0;
@@ -101,11 +101,12 @@ body {
   height: 10%;
   width: 100%;
   padding: 10px;
-  font-size: 10px;
+
   font-weight: bold;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+  font-size: 15px;
 }
 .field {
   font-size: 12px;
@@ -125,7 +126,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
- 
 }
 #buttons {
   display: flex;
@@ -139,16 +139,10 @@ body {
   border-radius: 5px;
   color: white;
 }
-.clrselicon {
-
-  font-size: 15px;
-  
-}
 #item {
   padding: 10px;
   display: flex;
   align-items: center;
-  /* margin:10px; */
   width: 25%;
 }
 #item h4 {
@@ -169,7 +163,6 @@ body {
 }
 #searchbar i {
   color: #5d60ef;
-  font-weight: bolder;
 }
 #searchbar input {
   background-color: #f9f9f9;
@@ -186,8 +179,8 @@ body {
   width: 15%;
 }
 #language img {
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   border-radius: 100%;
 }
 #language select {
@@ -276,6 +269,7 @@ body {
   width: 100%;
   height: 90%;
   padding: 15px;
+  margin-top: 15px;
 }
 .active {
   display: flex;
@@ -307,8 +301,12 @@ body {
   width: 30%;
 }
 .card_header {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.card_header .header {
   font-weight: bolder;
-  padding: 10px 0px 0px 10px;
 }
 .obj {
   height: 190px;
@@ -356,6 +354,140 @@ body {
 .ob {
   height: 335px;
   padding: 10px;
+}
+#grphbutton,
+#export-btn {
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+
+  color: white;
+  background-color: #3074c1;
+}
+
+.radio-button {
+  accent-color: #3074c1;
+}
+#output {
+  position: absolute;
+  top: 170px;
+  left: 130px;
+
+  background-color: whitesmoke;
+  z-index: 1;
+  padding: 15px;
+  width: 220px;
+  height: 332px;
+  overflow-y: auto;
+  display: none;
+}
+
+#output::before {
+  content: " ";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: whitesmoke;
+
+  transform: rotate(45deg);
+  left: 35%;
+  top: -5px;
+}
+/*::-webkit-scrollbar {
+  width: 5px;
+}
+
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background:gray; 
+  border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: gray; 
+}*/
+.buttons.borderbox.border-bottom.border-right,
+.buttons-end.borderbox.border-left {
+  background-color: rgb(197, 213, 255);
+  border-radius: 7px;
+  margin: 0px 2px 0px 2px;
+  border: none;
+}
+.buttons.borderbox.border-bottom.border-right button {
+  border-right: 1px solid white;
+}
+
+.bright.qv-panel-current-selections .buttons .qv-subtoolbar-button.disabled {
+  opacity: 0.8;
+}
+.bright.qv-panel-current-selections .wrap {
+  border-bottom: none;
+  border-radius: 5px;
+  margin: 0px 2px 0px 2px;
+}
+.bright.qv-panel-current-selections {
+  border-radius: 5px;
+}
+.qv-panel-current-selections ul {
+  padding-left: 0px;
+}
+/*.mode{
+  width: 50px;
+  height: 25px;
+  border-radius: 30px;
+  border: 1px solid black;
+    background-color:#3074c1 ;
+}
+.indicator {
+  position: absolute;
+  width: 23px;
+  height: 23px;
+ background-color:white;
+  border-radius: 50%;
+  //border: 1px solid black;
+  transition: 0.5s;
+} */
+.tgbtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tgbtn span {
+  font-size: 13px;
+}
+.tgbar {
+  width: 26px;
+  height: 15px;
+  border-radius: 30px;
+  border: 2px solid #3074c1;
+  position: relative;
+  padding: 1px;
+}
+.indicator {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background-color: #3074c1;
+  border-radius: 50%;
+}
+.slide {
+  left: 12px;
+}
+.bold {
+  font-weight: 600;
+}
+.bold-icon {
+  color: #3074c1;
+  font-size: 16px;
+  -webkit-text-stroke: 0.5px;
 }
 @media screen and (min-width: 1251px) and (max-width: 1375px) {
   #sidebar {
@@ -464,9 +596,9 @@ body {
     margin: 0;
     position: relative;
   }*/
-  #list {
-    display: none;
-  }
+  /* #list {
+   display: none;
+ }*/
   #content {
     width: 100%;
     left: 0;

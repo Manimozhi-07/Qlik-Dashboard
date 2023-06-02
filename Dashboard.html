@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Qlik Sense Mashup(Dashboard)</title>
+    <title>Qlik Sense Mashup Dashboard</title>
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="HandheldFriendly" content="True" />
@@ -34,13 +34,9 @@
     />
     <script src="../../resources/assets/external/requirejs/require.js"></script>
     <link rel="stylesheet" href="Dashboard.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   </head>
   <body>
-    <div
-      id="CurrentSelections"
-      class="qvobjects"
-      style="position: relative; top: 0; left: 0; width: 100%; height: 38px"
-    ></div>
     <div id="wrapper">
       <div id="sidebar">
         <div id="brand">
@@ -126,7 +122,7 @@
 
           <!--language starts-->
           <div id="language" class="navdiv">
-            <!-- <img src="images/download.png" alt="" />&nbsp; -->
+            <img src="country.png" alt="" />&nbsp;
             <select title="languagedropdown">
               <option value="us">ENG(US)</option>
               <option value="in">ENG(IN)</option>
@@ -136,43 +132,63 @@
 
           <!--profile starts-->
           <div id="profile" class="navdiv">
-            <div id="notification">
+            <!--<div id="notification">
               <i class="bi bi-bell" id="bell"></i>
-            </div>
-            &nbsp; <img src="user1.jpg" alt="" />&nbsp;
+            </div>-->
+            &nbsp; <img src="download.png" alt="" />&nbsp;
             <div id="profile-name">
-              <span id="name">Musfig</span><br />
+              <span id="name"></span><br />
               <span id="domain">Admin</span>
             </div>
-            <i class="bi bi-chevron-down" id="drop"></i>
-            <div id="down">
+            <!--<i class="bi bi-chevron-down" id="drop"></i>-->
+            <!--<div id="down">
               <span class="dropdown">Fill Details</span>
               <span class="dropdown">Edit Profile</span>
               <span class="dropdown">Logout</span>
-            </div>
+            </div>-->
           </div>
 
           <!--profile ends-->
         </div>
-        <div id="selectionCont">
+
+        <!--<div id="selectionCont">
           <div id="buttons">
-            <button type="button" class="selbar_btn" id="backbtn">
-              <i class="bi bi-arrow-left"></i>
+            <button type="button" class="selbar_btn" id="backbtn" title="Step back">
+              <i class="bi bi-arrow-counterclockwise"></i>
             </button>
-            <button type="button" class="selbar_btn" id="forwardbtn">
-              <i class="bi bi-arrow-right"></i>
+            <button type="button" class="selbar_btn" id="forwardbtn" title="step forward">
+              <i class="bi bi-arrow-clockwise"></i>
             </button>
-            <button type="button" class="selbar_btn" id="clrbtn">
+            <button type="button" class="selbar_btn" id="clrbtn" title="Clear all selections">
               <i class="bi bi-x-lg"></i>
             </button>
           </div>
           <div id="selbar"></div>
+		  <div id="output"></div>
         </div>
+		-->
+        <div
+          id="CurrentSelections"
+          class="qvobjects"
+          style="
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 38px;
+            padding: 15px;
+          "
+        ></div>
         <div class="main active" id="main1">
           <div class="r">
             <div class="c" id="c60">
               <div class="card_header">
                 <span class="header">Today's Sales</span>
+                <div id="button">
+                  <button type="button" id="export-btn">
+                    <i class="bi bi-box-arrow-up"></i>&nbsp;Export
+                  </button>
+                </div>
               </div>
               <div class="obj" id="obj1">
                 <div class="kpis" id="kpi1"></div>
@@ -184,7 +200,17 @@
             <div class="c c40">
               <div class="card_header">
                 <span class="header">Visitor insights</span>
+
+                <div class="tgbtn">
+                  <span id="weekly" class="bold">Weekly</span>&nbsp;
+                  <div class="tgbar" id="first">
+                    <div class="indicator first-i"></div>
+                  </div>
+                  &nbsp;
+                  <span id="monthly">Monthly</span>
+                </div>
               </div>
+
               <div class="obj" id="obj2"></div>
             </div>
           </div>
@@ -192,6 +218,12 @@
             <div class="c c40">
               <div class="card_header">
                 <span class="header">Total Revenue</span>
+                <div>
+                  <!--<button type="button" class="button activebtn" id="bar-button"><i class="bi bi-bar-chart"></i>&nbsp;Bar</button>-->
+                  <button type="button" id="grphbutton">
+                    <i class="bi bi-graph-up"></i>&nbsp;LineChart
+                  </button>
+                </div>
               </div>
               <div class="obj" id="obj3"></div>
             </div>
@@ -224,6 +256,16 @@
             <div class="c c30">
               <div class="card_header">
                 <span class="header">Volume vs Service level</span>
+                <div class="tgbtn">
+                  <span id="barChart"
+                    ><i class="bi bi-bar-chart bold-icon"></i></span
+                  >&nbsp;
+                  <div class="tgbar" id="second">
+                    <div class="indicator second-i"></div>
+                  </div>
+                  &nbsp;
+                  <span id="pieChart"><i class="bi bi-pie-chart"></i></span>
+                </div>
               </div>
               <div class="obj" id="obj8"></div>
             </div>
@@ -233,13 +275,41 @@
           <div class="r50">
             <div class="c50">
               <div class="card_header">
-                <span>Product Category</span>
+                <span class="header">Product Category</span>
+                <div>
+                  <input
+                    type="radio"
+                    id="table"
+                    class="radio-button"
+                    name="radiobtn"
+                    value="Table"
+                    checked=""
+                  />&nbsp;Table &nbsp;
+                  <!--<label for="table">Table</label>-->
+                  <input
+                    type="radio"
+                    id="bar"
+                    class="radio-button"
+                    name="radiobtn"
+                    value="Bar"
+                  />&nbsp;Bar &nbsp;
+                  <!--<label for="bar">Bar</label>-->
+                  &nbsp;
+                  <input
+                    type="radio"
+                    id="line"
+                    class="radio-button"
+                    name="radiobtn"
+                    value="Line"
+                  />&nbsp;Line &nbsp;
+                  <!-- <label for="line">Line</label>-->
+                </div>
               </div>
               <div class="ob" id="obj9"></div>
             </div>
             <div class="c50">
               <div class="card_header">
-                <span>Total Quantity</span>
+                <span class="header">Total Quantity</span>
               </div>
               <div class="ob" id="obj10"></div>
             </div>
@@ -247,13 +317,13 @@
           <div class="r50">
             <div class="c50">
               <div class="card_header">
-                <span>Average Sales</span>
+                <span class="header">Average Sales</span>
               </div>
               <div class="ob" id="obj11"></div>
             </div>
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj12"></div>
             </div>
@@ -263,13 +333,13 @@
           <div class="r50">
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj13"></div>
             </div>
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj14"></div>
             </div>
@@ -277,13 +347,13 @@
           <div class="r50">
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj15"></div>
             </div>
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj16"></div>
             </div>
@@ -293,13 +363,13 @@
           <div class="r50">
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj17"></div>
             </div>
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj18"></div>
             </div>
@@ -307,13 +377,13 @@
           <div class="r50">
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
               <div class="ob" id="obj19"></div>
             </div>
             <div class="c50">
               <div class="card_header">
-                <span>Country based sales</span>
+                <span class="header">Country based sales</span>
               </div>
 
               <div class="ob" id="obj20"></div>
@@ -395,6 +465,7 @@
       </div>
     </div>
     <script src="Dashboard.js"></script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
