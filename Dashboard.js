@@ -34,20 +34,34 @@ require(["js/qlik"], function (qlik) {
   app.getObject("obj6", "pvJDPB");
   app.getObject("obj7", "FbmGRwK");
   app.getObject("obj8", "JNhxrdy");
-  app.getObject("obj9", "pvJDPB");
-  app.getObject("obj10", "ewbPV");
-  app.getObject("obj11", "tTZQUX");
-  app.getObject("obj12", "cbBHXD");
-  app.getObject("obj13", "sqYtfY");
-  app.getObject("obj14", "pvJDPB");
-  app.getObject("obj15", "FbmGRwK");
-  app.getObject("obj16", "JNhxrdy");
-  app.getObject("obj17", "sqYtfY");
-  app.getObject("obj18", "pvJDPB");
-  app.getObject("obj19", "FbmGRwK");
-  app.getObject("obj20", "JNhxrdy");
+  // app.getObject("obj9", "pvJDPB");
+  // app.getObject("obj10", "ewbPV");
+  // app.getObject("obj11", "tTZQUX");
+  // app.getObject("obj12", "cbBHXD");
+  // app.getObject("obj13", "sqYtfY");
+  // app.getObject("obj14", "pvJDPB");
+  // app.getObject("obj15", "FbmGRwK");
+  // app.getObject("obj16", "JNhxrdy");
+  // app.getObject("obj17", "sqYtfY");
+  // app.getObject("obj18", "pvJDPB");
+  // app.getObject("obj19", "FbmGRwK");
+  // app.getObject("obj20", "JNhxrdy");
 
   $("document").ready(function () {
+    // async function getObj() {
+    //   const response = await fetch("object.json");
+    //   const data = await response.json();
+    //   console.log(data);
+    // }
+    // getObj();
+    // fetch("object.json")
+    //   .then((response) => response.json())
+    //   .then((json) => console.log(json));
+    //Language Dropdown
+    $("#myDropdown").ddslick({
+      width: "125px",
+      imagePosition: "left",
+    });
     //UserName
     qlik.getGlobal().getAuthenticatedUser(function (reply) {
       var username = reply.qReturn.split(";")[1].split("=")[1];
@@ -80,18 +94,76 @@ require(["js/qlik"], function (qlik) {
     });
 
     //Collapse Expand
-    $(document).ready(function () {
-      $(" #brand button ").click(function () {
-        $("#list").slideToggle(1000);
-      });
+
+    $(" #brand button ").click(function () {
+      $("#list").slideToggle(1000);
     });
 
     //Dynamic items
-    $(document).ready(function () {
-      $("#list a").click(function () {
-        var textval = $.trim($(this).text());
-        $("#item h4").text(textval);
-      });
+
+    $("#list a").click(function () {
+      var textval = $.trim($(this).text());
+      $("#item h4").text(textval);
+      //Getting objects
+      // var myObj = {
+      //   Dashboard: {
+      //     kpi1: "Mucjqa",
+      //     kpi2: "TrRcd",
+      //     kpi3: "mpfTcL",
+      //     kpi4: "zmXPJPa",
+      //     obj2: "ewbPV",
+      //     obj3: "tTZQUX",
+      //     obj4: "cbBHXD",
+      //     obj5: "sqYtfY",
+      //     obj6: "pvJDPB",
+      //     obj7: "FbmGRwK",
+      //     obj8: "JNhxrdy",
+      //   },
+      //   Leaderboard: {
+      //     obj9: "pvJDPB",
+      //     obj10: "ewbPV",
+      //     obj11: "tTZQUX",
+      //     obj12: "cbBHXD",
+      //   },
+      //   Order: {
+      //     obj13: "sqYtfY",
+      //     obj14: "pvJDPB",
+      //     obj15: "FbmGRwK",
+      //     obj16: "JNhxrdy",
+      //   },
+      //   Products: {
+      //     obj17: "sqYtfY",
+      //     obj18: "pvJDPB",
+      //     obj19: "FbmGRwK",
+      //     obj20: "JNhxrdy",
+      //   },
+      // };
+
+      // fetch("object.json")
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     const myObj = data;
+      //     function renderObj(textval) {
+      //       var objects = myObj[textval]; //objects
+
+      //       Object.entries(objects).forEach(([key, value]) => {
+      //         app.getObject(key, value);
+      //       });
+      //     }
+      //     renderObj(textval);
+      //   });
+      function renderObj(textval) {
+        async function getObj() {
+          const response = await fetch("object.json");
+          const data = await response.json();
+          var objects = data[textval];
+          Object.entries(objects).forEach(([key, value]) => {
+            app.getObject(key, value);
+          });
+        }
+        getObj();
+      }
+      renderObj(textval);
     });
 
     //ToggleChart
