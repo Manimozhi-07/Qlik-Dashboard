@@ -21,47 +21,34 @@ require(["js/qlik"], function (qlik) {
   //open app
   var app = qlik.openApp("a92e83cb-98b5-4c02-9dad-753067b309bd", config);
 
-  //get object
+  //get selection object
   app.getObject("CurrentSelections", "CurrentSelections");
-  app.getObject("kpi1", "Mucjqa");
-  app.getObject("kpi2", "TrRcd");
-  app.getObject("kpi3", "mpfTcL");
-  app.getObject("kpi4", "zmXPJPa");
-  app.getObject("obj2", "ewbPV");
-  app.getObject("obj3", "tTZQUX");
-  app.getObject("obj4", "cbBHXD");
-  app.getObject("obj5", "sqYtfY");
-  app.getObject("obj6", "pvJDPB");
-  app.getObject("obj7", "FbmGRwK");
-  app.getObject("obj8", "JNhxrdy");
-  // app.getObject("obj9", "pvJDPB");
-  // app.getObject("obj10", "ewbPV");
-  // app.getObject("obj11", "tTZQUX");
-  // app.getObject("obj12", "cbBHXD");
-  // app.getObject("obj13", "sqYtfY");
-  // app.getObject("obj14", "pvJDPB");
-  // app.getObject("obj15", "FbmGRwK");
-  // app.getObject("obj16", "JNhxrdy");
-  // app.getObject("obj17", "sqYtfY");
-  // app.getObject("obj18", "pvJDPB");
-  // app.getObject("obj19", "FbmGRwK");
-  // app.getObject("obj20", "JNhxrdy");
 
+  //jQuery starts
   $("document").ready(function () {
-    // async function getObj() {
-    //   const response = await fetch("object.json");
-    //   const data = await response.json();
-    //   console.log(data);
-    // }
-    // getObj();
-    // fetch("object.json")
-    //   .then((response) => response.json())
-    //   .then((json) => console.log(json));
+    //Fetching data from JSON
+    async function getObj() {
+      const response = await fetch("object.json");
+      const data = await response.json(); //object
+      return data; // async function always returns promise
+    }
+
+    //Dashboard Objects
+    async function mainDisplay() {
+      const val = await getObj(); //object ||r data
+      const ob = Object.entries(val["Dashboard"]); //Object.entries(val)[0][1]
+      ob.forEach(([k, v]) => {
+        app.getObject(k, v);
+      });
+    }
+    mainDisplay();
+
     //Language Dropdown
     $("#myDropdown").ddslick({
       width: "125px",
       imagePosition: "left",
     });
+
     //UserName
     qlik.getGlobal().getAuthenticatedUser(function (reply) {
       var username = reply.qReturn.split(";")[1].split("=")[1];
@@ -94,74 +81,22 @@ require(["js/qlik"], function (qlik) {
     });
 
     //Collapse Expand
-
     $(" #brand button ").click(function () {
       $("#list").slideToggle(1000);
     });
 
     //Dynamic items
-
     $("#list a").click(function () {
       var textval = $.trim($(this).text());
       $("#item h4").text(textval);
-      //Getting objects
-      // var myObj = {
-      //   Dashboard: {
-      //     kpi1: "Mucjqa",
-      //     kpi2: "TrRcd",
-      //     kpi3: "mpfTcL",
-      //     kpi4: "zmXPJPa",
-      //     obj2: "ewbPV",
-      //     obj3: "tTZQUX",
-      //     obj4: "cbBHXD",
-      //     obj5: "sqYtfY",
-      //     obj6: "pvJDPB",
-      //     obj7: "FbmGRwK",
-      //     obj8: "JNhxrdy",
-      //   },
-      //   Leaderboard: {
-      //     obj9: "pvJDPB",
-      //     obj10: "ewbPV",
-      //     obj11: "tTZQUX",
-      //     obj12: "cbBHXD",
-      //   },
-      //   Order: {
-      //     obj13: "sqYtfY",
-      //     obj14: "pvJDPB",
-      //     obj15: "FbmGRwK",
-      //     obj16: "JNhxrdy",
-      //   },
-      //   Products: {
-      //     obj17: "sqYtfY",
-      //     obj18: "pvJDPB",
-      //     obj19: "FbmGRwK",
-      //     obj20: "JNhxrdy",
-      //   },
-      // };
 
-      // fetch("object.json")
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     const myObj = data;
-      //     function renderObj(textval) {
-      //       var objects = myObj[textval]; //objects
-
-      //       Object.entries(objects).forEach(([key, value]) => {
-      //         app.getObject(key, value);
-      //       });
-      //     }
-      //     renderObj(textval);
-      //   });
-      function renderObj(textval) {
-        async function getObj() {
-          const response = await fetch("object.json");
-          const data = await response.json();
-          var objects = data[textval];
-          Object.entries(objects).forEach(([key, value]) => {
-            app.getObject(key, value);
-          });
-        }
-        getObj();
+      //Getting Objects respective to textval(tabs)
+      async function renderObj(textval) {
+        const dataval = await getObj();
+        var objects = dataval[textval];
+        Object.entries(objects).forEach(([key, value]) => {
+          app.getObject(key, value);
+        });
       }
       renderObj(textval);
     });
@@ -179,7 +114,7 @@ require(["js/qlik"], function (qlik) {
       }
     });
 
-    //jQuery(Togglebar)
+    //Togglebar
     $("#first").on("click", function () {
       $(".first-i").toggleClass("slide");
       myToggle();
